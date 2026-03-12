@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_financial_recovery_app/design_system/tokens/ds_radius.dart';
 import '../tokens/ds_colors.dart';
 
 class DSTheme {
@@ -10,12 +11,10 @@ class DSTheme {
       secondary: DSColors.brandSecondary,
       error: DSColors.error,
     ),
-    inputDecorationTheme: const InputDecorationTheme(
+    inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: DSColors.surfacePrimary,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
+      border: OutlineInputBorder(borderRadius: DSRadius.md),
     ),
   );
 }
