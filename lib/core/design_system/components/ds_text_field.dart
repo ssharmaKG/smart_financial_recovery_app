@@ -96,9 +96,9 @@ class DSTextField extends StatelessWidget {
                 ),
 
                 // Default Border
-                border: style == DSTextFieldStyle.filled
+                enabledBorder: style == DSTextFieldStyle.filled
                     ? OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: DSRadius.xxl,
                         borderSide: BorderSide.none,
                       )
                     : OutlineInputBorder(
@@ -111,7 +111,7 @@ class DSTextField extends StatelessWidget {
                 // Focused Border
                 focusedBorder: style == DSTextFieldStyle.filled
                     ? OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: DSRadius.xxl,
                         borderSide: BorderSide.none,
                       )
                     : OutlineInputBorder(
