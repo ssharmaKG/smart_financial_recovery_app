@@ -1,9 +1,11 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../domain/entities/login_user.dart';
 import '../../domain/repositories/login_repository.dart';
 import '../models/login_user_model.dart';
 
 /// Mock implementation — replace with real API/Firebase calls
 class LoginRepositoryImpl implements LoginRepository {
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   @override
   Future<LoginUser> signInWithEmailAndPassword({
     required String email,
@@ -26,12 +28,17 @@ class LoginRepositoryImpl implements LoginRepository {
 
   @override
   Future<LoginUser> signInWithGoogle() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    return const LoginUserModel(
-      id: 'google_user_001',
-      email: 'user@gmail.com',
-      displayName: 'Google User',
-    );
+    try {
+      final account = await _googleSignIn.authenticate();
+
+      return LoginUserModel(
+        id: account.id,
+        email: account.email,
+        displayName: account.displayName,
+      );
+    } catch (e) {
+      throw Exception('Google sign-in failed: $e');
+    }
   }
 
   @override

@@ -1,4 +1,5 @@
 //
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_financial_recovery_app/core/design_system/ds_theme.dart';
@@ -7,7 +8,9 @@ import 'features/login/domain/usecases/login_usecases.dart';
 import 'features/login/presentation/viewmodels/login_viewmodel.dart';
 import 'features/login/presentation/views/login_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const FinanceApp());
 }
 
