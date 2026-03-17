@@ -16,12 +16,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-
-      - name: Cache Flutter packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
@@ -41,12 +36,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-
-      - name: Cache Flutter packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
@@ -66,24 +56,13 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-
-      - name: Cache Flutter packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build Android APK
         run: flutter build apk --release
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: flutter-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
 
   build-ios:
     needs: test
@@ -97,28 +76,10 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-
-      - name: Cache Flutter packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build iOS .ipa
         run: flutter build ios --release --no-codesign
-
-      - name: Create IPA
-        run: |
-          mkdir -p build/ios/ipa/Payload
-          cp -R build/ios/iphoneos/Runner.app build/ios/ipa/Payload
-          cd build/ios/ipa
-          zip -r Runner.ipa Payload
-
-      - name: Upload IPA artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-ipa
-          path: build/ios/ipa/Runner.ipa
