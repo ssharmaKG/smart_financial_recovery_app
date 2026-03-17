@@ -116,7 +116,7 @@ class _DemoScreenState extends State<DemoScreen> {
                   controller: generalController,
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    print("Amount entered: $value");
+                    debugPrint("Amount entered: $value");
                   },
                   prefix: const Padding(
                     padding: EdgeInsets.all(12),
@@ -158,7 +158,7 @@ class _DemoScreenState extends State<DemoScreen> {
                   controller: generalController,
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    print("Amount entered: $value");
+                    debugPrint("Amount entered: $value");
                   },
                   suffix: const Padding(
                     padding: EdgeInsets.all(12),
@@ -175,7 +175,7 @@ class _DemoScreenState extends State<DemoScreen> {
                   controller: otherController,
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    print("Amount entered: $value");
+                    debugPrint("Amount entered: $value");
                   },
                   suffix: const Padding(
                     padding: EdgeInsets.all(12),
