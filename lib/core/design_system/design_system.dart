@@ -5,6 +5,7 @@ export 'tokens/ds_radius.dart';
 export 'tokens/ds_shadows.dart';
 export 'tokens/ds_typography.dart';
 export 'tokens/ds_grid.dart';
+export 'tokens/ds_sizes.dart';
 
 // Theme
 export 'ds_theme.dart';

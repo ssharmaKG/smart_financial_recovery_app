@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_financial_recovery_app/core/design_system/tokens/ds_sizes.dart';
 import '../tokens/ds_colors.dart';
 import '../tokens/ds_spacing.dart';
 import '../tokens/ds_radius.dart';
@@ -71,14 +72,19 @@ class DSTextField extends StatelessWidget {
           ],
 
           SizedBox(
-            height: errorText != null && errorText!.isNotEmpty ? 64 : 44,
+            height: errorText != null && errorText!.isNotEmpty
+                ? DSSizes.textFieldErrorHeight
+                : DSSizes.textFieldHeight,
             child: TextField(
               controller: controller,
               keyboardType: _getKeyboardType(),
               onChanged: onChanged,
               enabled: !disabled,
               obscureText: type == DSTextFieldType.password,
-              style: const TextStyle(fontSize: 16, color: DSColors.textPrimary),
+              style: const TextStyle(
+                fontSize: DSSizes.iconSm,
+                color: DSColors.textPrimary,
+              ),
               decoration: InputDecoration(
                 hintText: hint,
                 hintStyle: const TextStyle(color: DSColors.textDisabled),

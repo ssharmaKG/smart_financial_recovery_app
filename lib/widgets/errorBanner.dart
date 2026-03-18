@@ -21,7 +21,7 @@ class ErrorBanner extends StatelessWidget {
         children: [
           const Icon(
             Icons.error_outline_rounded,
-            size: 16,
+            size: DSSizes.iconSm,
             color: DSColors.error,
           ),
           const SizedBox(width: DSSpacing.sm),

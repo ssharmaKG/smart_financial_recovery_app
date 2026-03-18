@@ -8,8 +8,8 @@ class AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 64,
-      height: 64,
+      width: DSSizes.iconxxL,
+      height: DSSizes.iconxxL,
       decoration: BoxDecoration(
         color: DSColors.brandPrimary,
         borderRadius: DSRadius.lg,
@@ -23,8 +23,8 @@ class AppLogo extends StatelessWidget {
       ),
       child: Image.asset(
         AppImages.shieldRepresentation,
-        width: 24, // ← control icon size inside container
-        height: 24,
+        width: DSSizes.iconLg, // ← control icon size inside container
+        height: DSSizes.iconLg,
       ),
     );
   }

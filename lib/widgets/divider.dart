@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_financial_recovery_app/core/utils/app_strings.dart';
 import '../../../core/design_system/design_system.dart';
 
 class OrDivider extends StatelessWidget {
@@ -9,12 +10,15 @@ class OrDivider extends StatelessWidget {
     return Row(
       children: [
         const Expanded(
-          child: Divider(color: DSColors.surfaceSecondary, thickness: 1),
+          child: Divider(
+            color: DSColors.surfaceSecondary,
+            thickness: DSSizes.divider,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: DSSpacing.md),
           child: Text(
-            'OR',
+            AppStrings.or,
             style: DSTypography.caption.copyWith(
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,

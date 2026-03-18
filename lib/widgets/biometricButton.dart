@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_financial_recovery_app/core/utils/app_strings.dart';
 import '../../../core/design_system/design_system.dart';
 
 class BiometricButton extends StatelessWidget {
@@ -10,7 +11,7 @@ class BiometricButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 44,
+      height: DSSizes.buttonHeight,
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
@@ -24,12 +25,12 @@ class BiometricButton extends StatelessWidget {
           children: [
             const Icon(
               Icons.fingerprint,
-              size: 20,
+              size: DSSizes.iconMd,
               color: DSColors.brandPrimary,
             ),
             const SizedBox(width: DSSpacing.sm),
             Text(
-              'Sign in with Face ID / Fingerprint',
+              AppStrings.biometric,
               style: DSTypography.body.copyWith(
                 color: DSColors.brandPrimary,
                 fontWeight: FontWeight.w600,

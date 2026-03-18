@@ -1,5 +1,7 @@
 class DSSizes {
   DSSizes._();
+  // Divider sizes
+  static const double divider = 1;
 
   // Icon sizes
   static const double iconSm = 16;
