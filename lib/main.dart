@@ -1,6 +1,7 @@
 //
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_financial_recovery_app/core/design_system/ds_theme.dart';
 import 'features/login/data/repositories/login_repository_impl.dart';
@@ -11,6 +12,7 @@ import 'features/login/presentation/views/login_view.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await GoogleSignIn.instance.initialize();
   runApp(const FinanceApp());
 }
 

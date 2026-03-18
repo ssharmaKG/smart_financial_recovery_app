@@ -3,9 +3,19 @@ import '../../domain/entities/login_user.dart';
 import '../../domain/repositories/login_repository.dart';
 import '../models/login_user_model.dart';
 
-/// Mock implementation — replace with real API/Firebase calls
 class LoginRepositoryImpl implements LoginRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+  LoginRepositoryImpl() {
+    _init();
+  }
+
+  Future<void> _init() async {
+    await _googleSignIn.initialize(
+      serverClientId:
+          '286619280602-cg5a9r7vhueiksoeuptk17l147dtitko.apps.googleusercontent.com;', //'286619280602-2jhotjddmusosls0e41o0dot03ncfcio.apps.googleusercontent.com',
+    );
+  }
+
   @override
   Future<LoginUser> signInWithEmailAndPassword({
     required String email,
