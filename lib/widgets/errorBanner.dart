@@ -10,7 +10,7 @@ class ErrorBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: DSSpacing.md,
-        vertical: DSSpacing.sm + 2,
+        vertical: DSSpacing.smd,
       ),
       decoration: BoxDecoration(
         color: DSColors.error.withValues(alpha: 0.08),
