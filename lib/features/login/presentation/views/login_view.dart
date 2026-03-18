@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_financial_recovery_app/core/utils/app_images.dart';
+import 'package:smart_financial_recovery_app/core/utils/app_strings.dart';
 import '../../../../../core/design_system/design_system.dart';
 import '../viewmodels/login_viewmodel.dart';
 import 'package:smart_financial_recovery_app/widgets/widgets.dart';
@@ -32,7 +33,7 @@ class _LoginViewState extends State<LoginView> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _ForgotPasswordSheet(
+      builder: (_) => ForgotPasswordSheet(
         emailController: emailController,
         onSend: (email) {
           Navigator.pop(context);
@@ -51,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  'Welcome back, ${vm.authenticatedUser!.displayName ?? vm.authenticatedUser!.email}!',
+                  '${AppStrings.welcomeBack}, ${vm.authenticatedUser!.displayName ?? vm.authenticatedUser!.email}!',
                 ),
                 backgroundColor: DSColors.success,
                 behavior: SnackBarBehavior.floating,
@@ -80,7 +81,7 @@ class _LoginViewState extends State<LoginView> {
 
                     // ── Heading ────────────────────────────────────
                     Text(
-                      'Welcome Back',
+                      AppStrings.welcomeBack,
                       style: DSTypography.h1.copyWith(
                         fontSize: 26,
                         letterSpacing: -0.5,
@@ -88,7 +89,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: DSSpacing.xs),
                     Text(
-                      'Sign in to manage your financial recovery plan.',
+                      AppStrings.loginSubtitle,
                       textAlign: TextAlign.center,
                       style: DSTypography.body.copyWith(
                         color: DSColors.textSecondary,
@@ -107,8 +108,8 @@ class _LoginViewState extends State<LoginView> {
                           children: [
                             // Email
                             DSTextField(
-                              label: 'Email Address',
-                              hint: 'name@example.com',
+                              label: AppStrings.emailLabel,
+                              hint: AppStrings.emailHint,
                               controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (_) => vm.clearError(),
@@ -116,12 +117,12 @@ class _LoginViewState extends State<LoginView> {
                             ),
 
                             DSTextField(
-                              label: 'Password',
-                              hint: 'Enter your password',
+                              label: AppStrings.passwordLabel,
+                              hint: AppStrings.passwordHint,
                               suffix: Image.asset(
                                 AppImages.eye,
-                                width: 16,
-                                height: 16,
+                                width: DSSizes.iconSm,
+                                height: DSSizes.iconSm,
                               ),
                               controller: _passwordController,
                               type: DSTextFieldType.password,
@@ -147,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: Text(
-                                  'Forgot Password?',
+                                  AppStrings.forgotPassword,
                                   style: DSTypography.caption.copyWith(
                                     color: DSColors.brandPrimary,
                                     fontWeight: FontWeight.w600,
@@ -161,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
 
                             // Sign In
                             DSButton(
-                              label: vm.isLoading ? '' : 'Sign In',
+                              label: vm.isLoading ? '' : AppStrings.signIn,
                               type: DSButtonType.primary,
                               onPressed: vm.isLoading
                                   ? null
@@ -182,7 +183,7 @@ class _LoginViewState extends State<LoginView> {
 
                             const SizedBox(height: DSSpacing.sm),
                             Text(
-                              'Use biometric authentication for faster and secure access.',
+                              AppStrings.biometricDesc,
                               textAlign: TextAlign.center,
                               style: DSTypography.caption.copyWith(height: 1.5),
                             ),
@@ -195,10 +196,10 @@ class _LoginViewState extends State<LoginView> {
 
                     // ── Social ─────────────────────────────────────
                     SocialButton(
-                      label: 'Continue with Google',
+                      label: AppStrings.continueWithGoogle,
                       icon: SizedBox(
-                        width: 20,
-                        height: 20,
+                        width: DSSizes.iconMd,
+                        height: DSSizes.iconMd,
                         child: Image.asset(
                           AppImages.googleIcon,
                           fit: BoxFit.contain,
@@ -208,10 +209,10 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: DSSpacing.sm),
                     SocialButton(
-                      label: 'Continue with Apple',
+                      label: AppStrings.continueWithApple,
                       icon: const Icon(
                         Icons.apple,
-                        size: 20,
+                        size: DSSizes.iconMd,
                         color: DSColors.textPrimary,
                       ),
                       onPressed: vm.isLoading ? null : vm.signInWithApple,
@@ -224,7 +225,7 @@ class _LoginViewState extends State<LoginView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account?",
+                          AppStrings.noAccount,
                           style: DSTypography.body.copyWith(
                             color: DSColors.textSecondary,
                             fontSize: 14,
@@ -234,7 +235,7 @@ class _LoginViewState extends State<LoginView> {
                         GestureDetector(
                           onTap: () {},
                           child: Text(
-                            'Create Account',
+                            AppStrings.createAccount,
                             style: DSTypography.body.copyWith(
                               color: DSColors.brandPrimary,
                               fontWeight: FontWeight.w700,
@@ -253,62 +254,6 @@ class _LoginViewState extends State<LoginView> {
           ),
         );
       },
-    );
-  }
-}
-
-// ── Forgot Password Sheet ──────────────────────────────────────────────────
-
-class _ForgotPasswordSheet extends StatelessWidget {
-  final TextEditingController emailController;
-  final void Function(String email) onSend;
-
-  const _ForgotPasswordSheet({
-    required this.emailController,
-    required this.onSend,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(DSSpacing.md),
-      padding: EdgeInsets.only(
-        left: DSSpacing.lg,
-        right: DSSpacing.lg,
-        top: DSSpacing.lg,
-        bottom: MediaQuery.of(context).viewInsets.bottom + DSSpacing.lg,
-      ),
-      decoration: const BoxDecoration(
-        color: DSColors.surfacePrimary,
-        borderRadius: DSRadius.xl,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Reset Password', style: DSTypography.h2),
-          const SizedBox(height: DSSpacing.sm),
-          Text(
-            "Enter your email and we'll send you a reset link.",
-            style: DSTypography.body.copyWith(
-              color: DSColors.textSecondary,
-              height: 1.5,
-            ),
-          ),
-          DSTextField(
-            label: 'Email Address',
-            hint: 'name@example.com',
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const SizedBox(height: DSSpacing.sm),
-          DSButton(
-            label: 'Send Reset Link',
-            type: DSButtonType.primary,
-            onPressed: () => onSend(emailController.text.trim()),
-          ),
-        ],
-      ),
     );
   }
 }

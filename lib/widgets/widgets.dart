@@ -3,3 +3,4 @@ export 'SocialButton.dart';
 export 'Divider.dart';
 export 'ErrorBanner.dart';
 export 'BiometricButton.dart';
+export 'ForgotPasswordSheet.dart';
