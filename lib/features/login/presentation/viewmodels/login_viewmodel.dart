@@ -28,8 +28,8 @@ class LoginViewModel extends ChangeNotifier {
   LoginStatus _status = LoginStatus.idle;
   LoginStatus get status => _status;
 
-  LoginUser? _loginenticatedUser;
-  LoginUser? get loginenticatedUser => _loginenticatedUser;
+  LoginUser? _authenticatedUser;
+  LoginUser? get authenticatedUser => _authenticatedUser;
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
@@ -61,7 +61,7 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> signIn({required String email, required String password}) async {
     _setLoading();
     try {
-      _loginenticatedUser = await _signInWithEmail(
+      _authenticatedUser = await _signInWithEmail(
         email: email,
         password: password,
       );
@@ -74,7 +74,7 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> signInWithGoogle() async {
     _setLoading();
     try {
-      _loginenticatedUser = await _signInWithGoogle();
+      _authenticatedUser = await _signInWithGoogle();
       _setSuccess();
     } catch (e) {
       _setError(e.toString().replaceFirst('Exception: ', ''));
@@ -84,7 +84,7 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> signInWithApple() async {
     _setLoading();
     try {
-      _loginenticatedUser = await _signInWithApple();
+      _authenticatedUser = await _signInWithApple();
       _setSuccess();
     } catch (e) {
       _setError(e.toString().replaceFirst('Exception: ', ''));
@@ -94,7 +94,7 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> signInWithBiometrics() async {
     _setLoading();
     try {
-      _loginenticatedUser = await _signInWithBiometrics();
+      _authenticatedUser = await _signInWithBiometrics();
       _setSuccess();
     } catch (e) {
       _setError(e.toString().replaceFirst('Exception: ', ''));

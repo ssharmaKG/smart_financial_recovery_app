@@ -47,11 +47,11 @@ class _LoginViewState extends State<LoginView> {
     return Consumer<LoginViewModel>(
       builder: (context, vm, _) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.isSuccess && vm.loginenticatedUser != null) {
+          if (vm.isSuccess && vm.authenticatedUser != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  'Welcome back, ${vm.loginenticatedUser!.displayName ?? vm.loginenticatedUser!.email}!',
+                  'Welcome back, ${vm.authenticatedUser!.displayName ?? vm.authenticatedUser!.email}!',
                 ),
                 backgroundColor: DSColors.success,
                 behavior: SnackBarBehavior.floating,
