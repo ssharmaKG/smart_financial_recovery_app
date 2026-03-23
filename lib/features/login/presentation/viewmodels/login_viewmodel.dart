@@ -35,9 +35,6 @@ class LoginViewModel extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  bool _forgotPasswordSent = false;
-  bool get forgotPasswordSent => _forgotPasswordSent;
-
   bool get isLoading => _status == LoginStatus.loading;
   bool get isSuccess => _status == LoginStatus.success;
 
@@ -108,7 +105,6 @@ class LoginViewModel extends ChangeNotifier {
     _setLoading();
     try {
       await _forgotPassword(email);
-      _forgotPasswordSent = true;
       _status = LoginStatus.idle;
       _setMessage(AppStrings.resetLinkSent);
       notifyListeners();
