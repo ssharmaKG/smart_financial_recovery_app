@@ -5,4 +5,6 @@ class DSRadius {
   static const md = BorderRadius.all(Radius.circular(8));
   static const lg = BorderRadius.all(Radius.circular(12));
   static const xl = BorderRadius.all(Radius.circular(16));
+  static const xml = BorderRadius.all(Radius.circular(20));
+  static const xxl = BorderRadius.all(Radius.circular(24));
 }

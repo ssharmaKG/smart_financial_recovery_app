@@ -1,0 +1,140 @@
+import 'package:flutter/foundation.dart';
+import 'package:smart_financial_recovery_app/core/utils/app_strings.dart';
+import '../../domain/entities/login_user.dart';
+import '../../domain/usecases/login_usecases.dart';
+
+enum LoginStatus { idle, loading, success, failure }
+
+class LoginViewModel extends ChangeNotifier {
+  final SignInWithEmailUseCase _signInWithEmail;
+  final SignInWithGoogleUseCase _signInWithGoogle;
+  final SignInWithAppleUseCase _signInWithApple;
+  final SignInWithBiometricsUseCase _signInWithBiometrics;
+  final ForgotPasswordUseCase _forgotPassword;
+
+  LoginViewModel({
+    required SignInWithEmailUseCase signInWithEmail,
+    required SignInWithGoogleUseCase signInWithGoogle,
+    required SignInWithAppleUseCase signInWithApple,
+    required SignInWithBiometricsUseCase signInWithBiometrics,
+    required ForgotPasswordUseCase forgotPassword,
+  }) : _signInWithEmail = signInWithEmail,
+       _signInWithGoogle = signInWithGoogle,
+       _signInWithApple = signInWithApple,
+       _signInWithBiometrics = signInWithBiometrics,
+       _forgotPassword = forgotPassword;
+
+  // ── State ──────────────────────────────────────────────────────────────────
+
+  LoginStatus _status = LoginStatus.idle;
+  LoginStatus get status => _status;
+
+  LoginUser? _authenticatedUser;
+  LoginUser? get authenticatedUser => _authenticatedUser;
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  bool get isLoading => _status == LoginStatus.loading;
+  bool get isSuccess => _status == LoginStatus.success;
+
+  String? _uiMessage;
+  String? get uiMessage => _uiMessage;
+
+  // ── Actions ────────────────────────────────────────────────────────────────
+
+  void clearError() {
+    if (_errorMessage != null) {
+      _errorMessage = null;
+      _status = LoginStatus.idle;
+      notifyListeners();
+    }
+  }
+
+  void clearMessage() {
+    _uiMessage = null;
+  }
+
+  Future<void> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    _setLoading();
+    try {
+      _authenticatedUser = await _signInWithEmail(
+        email: email,
+        password: password,
+      );
+      _setSuccess();
+    } catch (e) {
+      _setError(e.toString().replaceFirst('Exception: ', ''));
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    _setLoading();
+    try {
+      _authenticatedUser = await _signInWithGoogle();
+      _setSuccess();
+    } catch (e) {
+      _setError(e.toString().replaceFirst('Exception: ', ''));
+    }
+  }
+
+  Future<void> signInWithApple() async {
+    _setLoading();
+    try {
+      _authenticatedUser = await _signInWithApple();
+      _setSuccess();
+    } catch (e) {
+      _setError(e.toString().replaceFirst('Exception: ', ''));
+    }
+  }
+
+  Future<void> signInWithBiometrics() async {
+    _setLoading();
+    try {
+      _authenticatedUser = await _signInWithBiometrics();
+      _setSuccess();
+    } catch (e) {
+      _setError(e.toString().replaceFirst('Exception: ', ''));
+    }
+  }
+
+  Future<void> sendForgotPassword(String email) async {
+    _setLoading();
+    try {
+      await _forgotPassword(email);
+      _status = LoginStatus.idle;
+      _setMessage(AppStrings.resetLinkSent);
+      notifyListeners();
+    } catch (e) {
+      _setError(e.toString().replaceFirst('Exception: ', ''));
+    }
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  void _setLoading() {
+    _status = LoginStatus.loading;
+    _errorMessage = null;
+    notifyListeners();
+  }
+
+  void _setSuccess() {
+    _status = LoginStatus.success;
+    _errorMessage = null;
+    notifyListeners();
+  }
+
+  void _setError(String message) {
+    _status = LoginStatus.failure;
+    _errorMessage = message;
+    notifyListeners();
+  }
+
+  void _setMessage(String message) {
+    _uiMessage = message;
+    notifyListeners();
+  }
+}

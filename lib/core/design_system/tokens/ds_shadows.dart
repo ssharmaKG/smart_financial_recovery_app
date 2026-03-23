@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_financial_recovery_app/design_system/tokens/ds_colors.dart';
+import 'package:smart_financial_recovery_app/core/design_system/design_system.dart';
 
 class DSShadows {
   static const sm = BoxShadow(

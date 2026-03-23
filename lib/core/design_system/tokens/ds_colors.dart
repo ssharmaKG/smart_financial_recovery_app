@@ -23,10 +23,10 @@ class DSColors {
   static const textInverse = Color(0xFFFFFFFF);
 
   // Shadow colors
-  static const shadowSm = Color(0x1F000000); // ~black12
-  static const shadowMd = Color(0x42000000); // ~black26
+  static const shadowSm = Color(0x1F000000);
+  static const shadowMd = Color(0x42000000);
   static const shadowLg = Color(0x42000000);
 
-  // Alpha variants
+  //Alpha variants
   static Color brandPrimary40 = brandPrimary.withValues(alpha: 0.4);
 }

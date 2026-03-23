@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "286619280602",
+    "project_id": "networth-b920a",
+    "storage_bucket": "networth-b920a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286619280602:android:89b1436252b992053671e3",
+        "android_client_info": {
+          "package_name": "com.networth.networth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286619280602-cg5a9r7vhueiksoeuptk17l147dtitko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7dY1cdArIuu1VXv5GMX_FSSFMnPAJ1vk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286619280602-cg5a9r7vhueiksoeuptk17l147dtitko.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "286619280602-58q735mafhsbsi7kd2rq8nn7c7edotco.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.networth.networth"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
