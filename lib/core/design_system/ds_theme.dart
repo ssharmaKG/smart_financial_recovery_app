@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'tokens/ds_radius.dart';
 import 'tokens/ds_colors.dart';
 
 class DSTheme {
@@ -10,11 +9,6 @@ class DSTheme {
       primary: DSColors.brandPrimary,
       secondary: DSColors.brandSecondary,
       error: DSColors.error,
-    ),
-    inputDecorationTheme: const InputDecorationTheme(
-      filled: true,
-      fillColor: DSColors.surfacePrimary,
-      border: OutlineInputBorder(borderRadius: DSRadius.md),
     ),
   );
 }

@@ -2,70 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_financial_recovery_app/core/router/app_router.dart';
-import 'package:smart_financial_recovery_app/core/utils/app_images.dart';
 import 'package:smart_financial_recovery_app/core/utils/app_strings.dart';
-import 'package:smart_financial_recovery_app/core/utils/validators.dart';
 import '../../../../../core/design_system/design_system.dart';
-import '../viewmodels/login_viewmodel.dart';
+import '../../../../../core/utils/app_images.dart';
+import '../../../../../core/utils/validators.dart';
+import '../viewmodels/signup_viewmodel.dart';
 import 'package:smart_financial_recovery_app/widgets/widgets.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class SignupView extends StatefulWidget {
+  const SignupView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignupView> createState() => _SignupViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _SignupViewState extends State<SignupView> {
   final _formKey = GlobalKey<FormState>();
+  final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
+    _fullNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  void _onSignIn(LoginViewModel vm) {
+  void _onSignUp(SignupViewModel vm) {
     if (_formKey.currentState?.validate() ?? false) {
-      vm.signIn(
+      vm.signUp(
+        fullName: _fullNameController.text.trim(),
         email: _emailController.text.trim(),
         password: _passwordController.text,
+        confirmPassword: _confirmPasswordController.text,
       );
     }
   }
 
-  void _showForgotPasswordSheet(LoginViewModel vm) {
-    final emailController = TextEditingController(
-      text: _emailController.text.trim(),
-    );
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => ForgotPasswordSheet(
-        emailController: emailController,
-        onSend: (email) {
-          Navigator.pop(context);
-          vm.sendForgotPassword(email);
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginViewModel>(
+    return Consumer<SignupViewModel>(
       builder: (context, vm, _) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.isSuccess && vm.authenticatedUser != null) {
+          if (vm.isSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(
-                  '${AppStrings.welcomeBack}, ${vm.authenticatedUser!.displayName ?? vm.authenticatedUser!.email}!',
-                ),
+                content: const Text(AppStrings.accountCreated),
                 backgroundColor: DSColors.success,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(borderRadius: DSRadius.md),
@@ -93,7 +79,7 @@ class _LoginViewState extends State<LoginView> {
 
                     // ── Heading ────────────────────────────────────
                     Text(
-                      AppStrings.welcomeBack,
+                      AppStrings.createYourAccount,
                       style: DSTypography.h1.copyWith(
                         fontSize: 26,
                         letterSpacing: -0.5,
@@ -101,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: DSSpacing.xs),
                     Text(
-                      AppStrings.loginSubtitle,
+                      AppStrings.signupSubtitle,
                       textAlign: TextAlign.center,
                       style: DSTypography.body.copyWith(
                         color: DSColors.textSecondary,
@@ -111,13 +97,23 @@ class _LoginViewState extends State<LoginView> {
 
                     const SizedBox(height: DSSpacing.xl),
 
-                    // ── Login Card ─────────────────────────────────
+                    // ── Signup Card ────────────────────────────────
                     DSCard(
                       child: Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // Full Name
+                            DSTextField(
+                              label: AppStrings.fullNameLabel,
+                              hint: AppStrings.fullNameHint,
+                              controller: _fullNameController,
+                              keyboardType: TextInputType.name,
+                              onChanged: (_) => vm.clearError(),
+                              validator: Validators.validateFullName,
+                            ),
+
                             // Email
                             DSTextField(
                               label: AppStrings.emailLabel,
@@ -128,14 +124,45 @@ class _LoginViewState extends State<LoginView> {
                               validator: Validators.validateEmail,
                             ),
 
-                            // Password — toggle built into DSTextField
+                            // Password
                             DSTextField(
                               label: AppStrings.passwordLabel,
                               hint: AppStrings.passwordHint,
                               controller: _passwordController,
                               type: DSTextFieldType.password,
-                              onChanged: (_) => vm.clearError(),
+                              onChanged: (val) {
+                                vm.onPasswordChanged(val);
+                                vm.clearError();
+                              },
                               validator: Validators.validatePassword,
+                            ),
+
+                            // Password rules — shown when typing
+                            if (vm.passwordTouched) ...[
+                              const SizedBox(height: DSSpacing.xs),
+                              PasswordRules(vm: vm),
+                            ],
+
+                            // Confirm Password
+                            DSTextField(
+                              label: AppStrings.confirmPasswordLabel,
+                              hint: AppStrings.confirmPasswordHint,
+                              controller: _confirmPasswordController,
+                              type: DSTextFieldType.password,
+                              onChanged: (_) => vm.clearError(),
+                              validator: (val) =>
+                                  Validators.validateConfirmPassword(
+                                    val,
+                                    _passwordController.text,
+                                  ),
+                            ),
+
+                            const SizedBox(height: DSSpacing.md),
+
+                            // Terms Checkbox
+                            TermsCheckbox(
+                              agreed: vm.agreedToTerms,
+                              onToggle: vm.toggleAgreement,
                             ),
 
                             // Error banner
@@ -144,36 +171,17 @@ class _LoginViewState extends State<LoginView> {
                               ErrorBanner(message: vm.errorMessage!),
                             ],
 
-                            // Forgot password
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: () => _showForgotPasswordSheet(vm),
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Text(
-                                  AppStrings.forgotPassword,
-                                  style: DSTypography.caption.copyWith(
-                                    color: DSColors.brandPrimary,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            const SizedBox(height: DSSpacing.md),
 
-                            const SizedBox(height: DSSpacing.sm),
-
-                            // Sign In
+                            // Create Account button
                             DSButton(
-                              label: vm.isLoading ? '' : AppStrings.signIn,
+                              label: vm.isLoading
+                                  ? ''
+                                  : AppStrings.createAccount,
                               type: DSButtonType.primary,
                               onPressed: vm.isLoading
                                   ? null
-                                  : () => _onSignIn(vm),
+                                  : () => _onSignUp(vm),
                               isDisabled: vm.isLoading,
                             ),
 
@@ -181,58 +189,49 @@ class _LoginViewState extends State<LoginView> {
                             const OrDivider(),
                             const SizedBox(height: DSSpacing.md),
 
-                            // Biometric
-                            BiometricButton(
+                            // Google
+                            SocialButton(
+                              label: AppStrings.continueWithGoogle,
+                              icon: SizedBox(
+                                width: DSSizes.iconMd,
+                                height: DSSizes.iconMd,
+                                child: Image.asset(
+                                  AppImages.googleIcon,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
                               onPressed: vm.isLoading
                                   ? null
-                                  : vm.signInWithBiometrics,
+                                  : vm.signUpWithGoogle,
                             ),
 
                             const SizedBox(height: DSSpacing.sm),
-                            Text(
-                              AppStrings.biometricDesc,
-                              textAlign: TextAlign.center,
-                              style: DSTypography.caption.copyWith(height: 1.5),
+
+                            // Apple
+                            SocialButton(
+                              label: AppStrings.continueWithApple,
+                              icon: const Icon(
+                                Icons.apple,
+                                size: DSSizes.iconMd,
+                                color: DSColors.textPrimary,
+                              ),
+                              onPressed: vm.isLoading
+                                  ? null
+                                  : vm.signUpWithApple,
                             ),
                           ],
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: DSSpacing.md),
-
-                    // ── Social ─────────────────────────────────────
-                    SocialButton(
-                      label: AppStrings.continueWithGoogle,
-                      icon: SizedBox(
-                        width: DSSizes.iconMd,
-                        height: DSSizes.iconMd,
-                        child: Image.asset(
-                          AppImages.googleIcon,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      onPressed: vm.isLoading ? null : vm.signInWithGoogle,
-                    ),
-                    const SizedBox(height: DSSpacing.sm),
-                    SocialButton(
-                      label: AppStrings.continueWithApple,
-                      icon: const Icon(
-                        Icons.apple,
-                        size: DSSizes.iconMd,
-                        color: DSColors.textPrimary,
-                      ),
-                      onPressed: vm.isLoading ? null : vm.signInWithApple,
-                    ),
-
                     const SizedBox(height: DSSpacing.xl),
 
-                    // ── Register ───────────────────────────────────
+                    // ── Sign In Link ───────────────────────────────
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          AppStrings.noAccount,
+                          AppStrings.alreadyHaveAccount,
                           style: DSTypography.body.copyWith(
                             color: DSColors.textSecondary,
                             fontSize: 14,
@@ -240,12 +239,9 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         const SizedBox(width: DSSpacing.xs),
                         GestureDetector(
-                          onTap: () {
-                            // Navigate tconto signup
-                            context.push(AppRoutes.signup);
-                          },
+                          onTap: () => context.push(AppRoutes.login),
                           child: Text(
-                            AppStrings.createAccount,
+                            AppStrings.signIn,
                             style: DSTypography.body.copyWith(
                               color: DSColors.brandPrimary,
                               fontWeight: FontWeight.w700,

@@ -4,6 +4,7 @@ class DSSizes {
   static const double divider = 1;
 
   // Icon sizes
+  static const double iconxSm = 14;
   static const double iconSm = 16;
   static const double iconMd = 20;
   static const double iconLg = 24;
@@ -12,8 +13,4 @@ class DSSizes {
 
   // Button
   static const double buttonHeight = 44;
-
-  // Input
-  static const double textFieldHeight = 48;
-  static const double textFieldErrorHeight = 44;
 }

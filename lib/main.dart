@@ -1,18 +1,15 @@
-//
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_financial_recovery_app/core/design_system/ds_theme.dart';
-import 'features/login/data/repositories/login_repository_impl.dart';
-import 'features/login/domain/usecases/login_usecases.dart';
-import 'features/login/presentation/viewmodels/login_viewmodel.dart';
-import 'features/login/presentation/views/login_view.dart';
+import 'core/design_system/design_system.dart';
+import 'core/router/app_router.dart';
+import 'features/Login/data/repositories/login_repository_impl.dart';
+import 'features/Login/domain/usecases/login_usecases.dart';
+import 'features/Login/presentation/viewmodels/login_viewmodel.dart';
+import 'features/signup/data/repositories/signup_repository_impl.dart';
+import 'features/signup/domain/usecases/signup_usecases.dart';
+import 'features/signup/presentation/viewmodels/signup_viewmodel.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await GoogleSignIn.instance.initialize();
+void main() {
   runApp(const FinanceApp());
 }
 
@@ -21,26 +18,33 @@ class FinanceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Dependency injection via Provider
-    final LoginRepository = LoginRepositoryImpl();
+    final loginRepository = LoginRepositoryImpl();
+    final signupRepository = SignupRepositoryImpl();
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => LoginViewModel(
-            signInWithEmail: SignInWithEmailUseCase(LoginRepository),
-            signInWithGoogle: SignInWithGoogleUseCase(LoginRepository),
-            signInWithApple: SignInWithAppleUseCase(LoginRepository),
-            signInWithBiometrics: SignInWithBiometricsUseCase(LoginRepository),
-            forgotPassword: ForgotPasswordUseCase(LoginRepository),
+            signInWithEmail: SignInWithEmailUseCase(loginRepository),
+            signInWithGoogle: SignInWithGoogleUseCase(loginRepository),
+            signInWithApple: SignInWithAppleUseCase(loginRepository),
+            signInWithBiometrics: SignInWithBiometricsUseCase(loginRepository),
+            forgotPassword: ForgotPasswordUseCase(loginRepository),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SignupViewModel(
+            signUpWithEmail: SignUpWithEmailUseCase(signupRepository),
+            signUpWithGoogle: SignUpWithGoogleUseCase(signupRepository),
+            signUpWithApple: SignUpWithAppleUseCase(signupRepository),
           ),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Finance Recovery',
         debugShowCheckedModeBanner: false,
         theme: DSTheme.lightTheme,
-        home: const LoginView(),
+        routerConfig: appRouter,
       ),
     );
   }

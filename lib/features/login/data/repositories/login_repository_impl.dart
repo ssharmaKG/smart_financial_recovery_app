@@ -24,7 +24,7 @@ class LoginRepositoryImpl implements LoginRepository {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 1500));
 
-    // Simulate validation — replace with real Login
+    // replace with real Login
     if (password == 'wrong') {
       throw Exception('Invalid email or password. Please try again.');
     }
@@ -74,6 +74,5 @@ class LoginRepositoryImpl implements LoginRepository {
   @override
   Future<void> forgotPassword(String email) async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    // Simulate sending reset email
   }
 }
