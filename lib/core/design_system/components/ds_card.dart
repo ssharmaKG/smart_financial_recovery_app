@@ -16,7 +16,7 @@ class DSCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: DSColors.surfacePrimary,
         borderRadius: DSRadius.lg,
-        boxShadow: DSShadows.md,
+        boxShadow: [DSShadows.md],
       ),
       child: child,
     );

@@ -22,17 +22,17 @@ class FinanceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Dependency injection via Provider
-    final LoginRepository = LoginRepositoryImpl();
+    final loginRepository = LoginRepositoryImpl();
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => LoginViewModel(
-            signInWithEmail: SignInWithEmailUseCase(LoginRepository),
-            signInWithGoogle: SignInWithGoogleUseCase(LoginRepository),
-            signInWithApple: SignInWithAppleUseCase(LoginRepository),
-            signInWithBiometrics: SignInWithBiometricsUseCase(LoginRepository),
-            forgotPassword: ForgotPasswordUseCase(LoginRepository),
+            signInWithEmail: SignInWithEmailUseCase(loginRepository),
+            signInWithGoogle: SignInWithGoogleUseCase(loginRepository),
+            signInWithApple: SignInWithAppleUseCase(loginRepository),
+            signInWithBiometrics: SignInWithBiometricsUseCase(loginRepository),
+            forgotPassword: ForgotPasswordUseCase(loginRepository),
           ),
         ),
       ],
