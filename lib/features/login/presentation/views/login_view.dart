@@ -20,7 +20,7 @@ class _LoginViewState extends State<LoginView> {
 
   void _onSignIn(LoginViewModel vm) {
     if (_formKey.currentState?.validate() ?? false) {
-      vm.signIn(
+      vm.signInWithEmail(
         email: _emailController.text,
         password: _passwordController.text,
       );

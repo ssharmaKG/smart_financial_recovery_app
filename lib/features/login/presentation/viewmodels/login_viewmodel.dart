@@ -34,9 +34,6 @@ class LoginViewModel extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  bool _obscurePassword = true;
-  bool get obscurePassword => _obscurePassword;
-
   bool _forgotPasswordSent = false;
   bool get forgotPasswordSent => _forgotPasswordSent;
 
@@ -44,11 +41,6 @@ class LoginViewModel extends ChangeNotifier {
   bool get isSuccess => _status == LoginStatus.success;
 
   // ── Actions ────────────────────────────────────────────────────────────────
-
-  void togglePasswordVisibility() {
-    _obscurePassword = !_obscurePassword;
-    notifyListeners();
-  }
 
   void clearError() {
     if (_errorMessage != null) {
@@ -58,7 +50,10 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<void> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
     _setLoading();
     try {
       _authenticatedUser = await _signInWithEmail(

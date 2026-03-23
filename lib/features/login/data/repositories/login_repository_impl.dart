@@ -12,7 +12,7 @@ class LoginRepositoryImpl implements LoginRepository {
   Future<void> _init() async {
     await _googleSignIn.initialize(
       serverClientId:
-          '286619280602-cg5a9r7vhueiksoeuptk17l147dtitko.apps.googleusercontent.com;', //'286619280602-2jhotjddmusosls0e41o0dot03ncfcio.apps.googleusercontent.com',
+          '286619280602-cg5a9r7vhueiksoeuptk17l147dtitko.apps.googleusercontent.com;',
     );
   }
 
