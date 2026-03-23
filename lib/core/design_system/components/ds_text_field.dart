@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_financial_recovery_app/core/design_system/tokens/ds_sizes.dart';
 import '../tokens/ds_colors.dart';
 import '../tokens/ds_spacing.dart';
 import '../tokens/ds_radius.dart';
@@ -36,24 +35,19 @@ class DSTextField extends StatelessWidget {
     this.style = DSTextFieldStyle.outlined,
   });
 
-  TextInputType _getKeyboardType() {
-    switch (type) {
-      case DSTextFieldType.amount:
-        return TextInputType.number;
+  bool get _isPassword => type == DSTextFieldType.password;
 
-      case DSTextFieldType.search:
-        return TextInputType.text;
-
-      case DSTextFieldType.password:
-        return TextInputType.text;
-
-      default:
-        return keyboardType;
-    }
+  OutlineInputBorder _border(Color color, {double width = 1}) {
+    return OutlineInputBorder(
+      borderRadius: DSRadius.md,
+      borderSide: BorderSide(color: color, width: width),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isError = errorText != null && errorText!.isNotEmpty;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: DSSpacing.sm),
       child: Column(
@@ -70,21 +64,15 @@ class DSTextField extends StatelessWidget {
             ),
             const SizedBox(height: DSSpacing.xs),
           ],
-
           SizedBox(
-            height: errorText != null && errorText!.isNotEmpty
-                ? DSSizes.textFieldErrorHeight
-                : DSSizes.textFieldHeight,
+            height: isError ? 64 : 44,
             child: TextField(
               controller: controller,
-              keyboardType: _getKeyboardType(),
+              keyboardType: keyboardType,
               onChanged: onChanged,
               enabled: !disabled,
-              obscureText: type == DSTextFieldType.password,
-              style: const TextStyle(
-                fontSize: DSSizes.iconSm,
-                color: DSColors.textPrimary,
-              ),
+              obscureText: _isPassword,
+              style: const TextStyle(fontSize: 16, color: DSColors.textPrimary),
               decoration: InputDecoration(
                 hintText: hint,
                 hintStyle: const TextStyle(color: DSColors.textDisabled),
@@ -101,46 +89,23 @@ class DSTextField extends StatelessWidget {
                   horizontal: DSSpacing.md,
                 ),
 
-                // Default Border
-                enabledBorder: style == DSTextFieldStyle.filled
+                border: style == DSTextFieldStyle.filled
                     ? OutlineInputBorder(
-                        borderRadius: DSRadius.xxl,
+                        borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
                       )
-                    : OutlineInputBorder(
-                        borderRadius: DSRadius.md,
-                        borderSide: const BorderSide(
-                          color: DSColors.surfaceSecondary,
-                        ),
-                      ),
+                    : _border(DSColors.surfaceSecondary),
 
-                // Focused Border
                 focusedBorder: style == DSTextFieldStyle.filled
                     ? OutlineInputBorder(
-                        borderRadius: DSRadius.xxl,
+                        borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
                       )
-                    : OutlineInputBorder(
-                        borderRadius: DSRadius.md,
-                        borderSide: const BorderSide(
-                          color: DSColors.brandPrimary,
-                          width: 1.5,
-                        ),
-                      ),
+                    : _border(DSColors.brandPrimary, width: 1.5),
 
-                // Error Border
-                errorBorder: OutlineInputBorder(
-                  borderRadius: DSRadius.md,
-                  borderSide: const BorderSide(color: DSColors.error),
-                ),
+                errorBorder: _border(DSColors.error),
 
-                // Disabled Border
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: DSRadius.md,
-                  borderSide: const BorderSide(
-                    color: DSColors.surfaceSecondary,
-                  ),
-                ),
+                disabledBorder: _border(DSColors.surfaceSecondary),
               ),
             ),
           ),

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:smart_financial_recovery_app/core/design_system/design_system.dart';
 
 class DSShadows {
   static const sm = BoxShadow(
-    color: Colors.black12,
+    color: DSColors.shadowSm,
     blurRadius: 2,
     offset: Offset(0, 1),
   );
 
   static const md = BoxShadow(
-    color: Colors.black26,
+    color: DSColors.shadowMd,
     blurRadius: 6,
     offset: Offset(0, 4),
   );
 
   static const lg = BoxShadow(
-    color: Colors.black26,
+    color: DSColors.shadowLg,
     blurRadius: 15,
     offset: Offset(0, 10),
   );
