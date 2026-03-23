@@ -77,7 +77,6 @@ class _DSTextFieldState extends State<DSTextField> {
             const SizedBox(height: DSSpacing.xs),
           ],
 
-          // ── Fixed 48px height for ALL field types ──────────────────────────
           SizedBox(
             height: 48,
             child: TextFormField(
@@ -179,7 +178,7 @@ class _DSTextFieldState extends State<DSTextField> {
             ),
           ),
 
-          // ── Error text rendered outside fixed box ──────────────────────────
+          // ── Error text ──────────────────────────
           if (widget.errorText != null && widget.errorText!.isNotEmpty) ...[
             const SizedBox(height: DSSpacing.xs),
             Text(
