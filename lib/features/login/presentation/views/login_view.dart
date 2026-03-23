@@ -60,6 +60,18 @@ class _LoginViewState extends State<LoginView> {
               ),
             );
           }
+
+          // ✅ Forgot password snackbar
+          if (vm.uiMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(vm.uiMessage!),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+
+            vm.clearMessage();
+          }
         });
 
         return Scaffold(

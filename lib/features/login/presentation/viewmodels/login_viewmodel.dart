@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:smart_financial_recovery_app/core/utils/app_strings.dart';
 import '../../domain/entities/login_user.dart';
 import '../../domain/usecases/login_usecases.dart';
 
@@ -40,6 +41,9 @@ class LoginViewModel extends ChangeNotifier {
   bool get isLoading => _status == LoginStatus.loading;
   bool get isSuccess => _status == LoginStatus.success;
 
+  String? _uiMessage;
+  String? get uiMessage => _uiMessage;
+
   // ── Actions ────────────────────────────────────────────────────────────────
 
   void clearError() {
@@ -48,6 +52,10 @@ class LoginViewModel extends ChangeNotifier {
       _status = LoginStatus.idle;
       notifyListeners();
     }
+  }
+
+  void clearMessage() {
+    _uiMessage = null;
   }
 
   Future<void> signInWithEmail({
@@ -102,6 +110,7 @@ class LoginViewModel extends ChangeNotifier {
       await _forgotPassword(email);
       _forgotPasswordSent = true;
       _status = LoginStatus.idle;
+      _setMessage(AppStrings.resetLinkSent);
       notifyListeners();
     } catch (e) {
       _setError(e.toString().replaceFirst('Exception: ', ''));
@@ -125,6 +134,11 @@ class LoginViewModel extends ChangeNotifier {
   void _setError(String message) {
     _status = LoginStatus.failure;
     _errorMessage = message;
+    notifyListeners();
+  }
+
+  void _setMessage(String message) {
+    _uiMessage = message;
     notifyListeners();
   }
 }
