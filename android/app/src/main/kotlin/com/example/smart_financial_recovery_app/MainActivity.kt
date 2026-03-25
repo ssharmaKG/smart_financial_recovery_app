@@ -1,4 +1,4 @@
-package com.example.smart_financial_recovery_app
+package com.networth.networth
 
 import io.flutter.embedding.android.FlutterActivity
 

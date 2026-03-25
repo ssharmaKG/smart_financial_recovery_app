@@ -1,6 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.networth.networth">
     <application
-        android:label="smart_financial_recovery_app"
+        android:label="NetWorth"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
