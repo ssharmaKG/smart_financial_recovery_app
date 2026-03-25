@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_financial_recovery_app/core/form/models/form_field_config.dart';
 import 'package:smart_financial_recovery_app/core/form/validator/form_field_validator.dart';
-import 'package:smart_financial_recovery_app/core/form/validator/validation_mode.dart';
 import 'package:smart_financial_recovery_app/core/form/validator/validation_runner.dart';
 import 'package:smart_financial_recovery_app/core/form/validator/validator_factory.dart';
 

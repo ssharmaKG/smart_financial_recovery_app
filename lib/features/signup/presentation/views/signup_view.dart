@@ -12,12 +12,10 @@ import 'package:smart_financial_recovery_app/core/design_system/tokens/ds_typogr
 import 'package:smart_financial_recovery_app/core/form/engine/form_controller.dart';
 import 'package:smart_financial_recovery_app/core/form/models/field_type.dart';
 import 'package:smart_financial_recovery_app/core/form/models/form_field_config.dart';
-import 'package:smart_financial_recovery_app/core/form/validator/validation_mode.dart';
 import 'package:smart_financial_recovery_app/core/form/view/form_view.dart';
 import 'package:smart_financial_recovery_app/core/router/app_router.dart';
 import 'package:smart_financial_recovery_app/core/utils/app_images.dart';
 import 'package:smart_financial_recovery_app/core/utils/app_strings.dart';
-import 'package:smart_financial_recovery_app/widgets/password_rules_view.dart';
 import '../viewmodels/signup_viewmodel.dart';
 import 'package:smart_financial_recovery_app/widgets/widgets.dart';
 
