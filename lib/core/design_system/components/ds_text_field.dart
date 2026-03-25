@@ -18,8 +18,6 @@ class DSTextField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final DSTextFieldType type;
   final DSTextFieldStyle style;
-  final FormFieldValidator<String>? validator;
-
   const DSTextField({
     super.key,
     required this.hint,
@@ -32,7 +30,6 @@ class DSTextField extends StatefulWidget {
     this.onChanged,
     this.type = DSTextFieldType.primary,
     this.style = DSTextFieldStyle.outlined,
-    this.validator,
   });
 
   @override
@@ -64,7 +61,6 @@ class _DSTextFieldState extends State<DSTextField> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Label ──────────────────────────────────────────────────────────
           if (widget.label != null) ...[
             Text(
               widget.label!,
@@ -85,20 +81,17 @@ class _DSTextFieldState extends State<DSTextField> {
               onChanged: widget.onChanged,
               enabled: !widget.disabled,
               obscureText: isPassword ? _obscureText : false,
-              validator: widget.validator,
               style: const TextStyle(fontSize: 16, color: DSColors.textPrimary),
+
               decoration: InputDecoration(
                 hintText: widget.hint,
                 hintStyle: const TextStyle(
                   color: DSColors.textDisabled,
                   fontSize: 16,
                 ),
-                // Hide inline error — shown manually below
                 errorText: null,
                 errorStyle: const TextStyle(height: 0, fontSize: 0),
                 prefixIcon: widget.prefix,
-
-                // Password toggle — auto shown for password type only
                 suffixIcon: isPassword
                     ? IconButton(
                         icon: Icon(
@@ -120,12 +113,12 @@ class _DSTextFieldState extends State<DSTextField> {
                     : widget.disabled
                     ? DSColors.surfaceSecondary
                     : DSColors.surfacePrimary,
+
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: DSSpacing.md,
                   vertical: DSSpacing.sm,
                 ),
 
-                // Enabled Border
                 enabledBorder: widget.style == DSTextFieldStyle.filled
                     ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
@@ -138,7 +131,6 @@ class _DSTextFieldState extends State<DSTextField> {
                         ),
                       ),
 
-                // Focused Border
                 focusedBorder: widget.style == DSTextFieldStyle.filled
                     ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
@@ -152,13 +144,11 @@ class _DSTextFieldState extends State<DSTextField> {
                         ),
                       ),
 
-                // Error Border
                 errorBorder: OutlineInputBorder(
                   borderRadius: DSRadius.md,
                   borderSide: const BorderSide(color: DSColors.error),
                 ),
 
-                // Focused Error Border
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: DSRadius.md,
                   borderSide: const BorderSide(
@@ -167,7 +157,6 @@ class _DSTextFieldState extends State<DSTextField> {
                   ),
                 ),
 
-                // Disabled Border
                 disabledBorder: OutlineInputBorder(
                   borderRadius: DSRadius.md,
                   borderSide: const BorderSide(
@@ -178,7 +167,7 @@ class _DSTextFieldState extends State<DSTextField> {
             ),
           ),
 
-          // ── Error text ──────────────────────────
+          // ✅ External error rendering (unchanged)
           if (widget.errorText != null && widget.errorText!.isNotEmpty) ...[
             const SizedBox(height: DSSpacing.xs),
             Text(

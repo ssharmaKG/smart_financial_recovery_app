@@ -4,6 +4,6 @@ export 'Divider.dart';
 export 'ErrorBanner.dart';
 export 'BiometricButton.dart';
 export 'ForgotPasswordSheet.dart';
-export 'PasswordRules.dart';
+export 'password_rules_view.dart';
 export 'RuleRow.dart';
 export 'TermsCheckbox.dart';
